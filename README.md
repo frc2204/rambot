@@ -10,7 +10,6 @@ rambot is Team 2204's (also named Rambots) Discord Bot. rambot can track attenda
 4. [Running the Bot](#running-the-bot)
 5. [License](#license)
 
-
 ## Node.js Installation
 
 Before you can run your Discord bot, you need to have Node.js installed on your system. If you don't have it installed, follow these steps:
@@ -42,13 +41,7 @@ Before you can run your bot, you need to set up its configuration. Follow these 
 
 1. Rename the `.env.example` file to `.env`.
 2. Open the `.env` file in a text editor of your choice.
-3. Replace `YOUR_BOT_TOKEN_HERE` with your actual bot token. You can obtain a token by creating a bot on the Discord Developer Portal.
-
-Example `.env` file:
-
-```
-BOT_TOKEN=your_actual_bot_token_here
-```
+3. Fill in all the values.
 
 Please note that it's important to keep your bot token secret. **Never share it publicly or include it in your code repository**.
 
@@ -64,4 +57,4 @@ Your bot should now be up and running! You should see it online in your Discord 
 
 ## License
 
-This Discord bot is licensed under the **Affero General Public License (AGPL) version 3**. Please review the `LICENSE` file included in this repository for more details.
+This Discord bot is licensed under the **GNU Affero General Public License**. Please review the `LICENSE` file included in this repository for more details.

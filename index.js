@@ -32,12 +32,12 @@ client.once(Events.ClientReady, () => {
   console.log("rambot is ready!");
 
   client.user.setPresence({
-        status: 'idle',
-        activity: {
-            name: 'FIRST',
-            type: 'WATCHING'
-        }
-    });
+    status: "idle",
+    activity: {
+      name: "FIRST",
+      type: "WATCHING",
+    },
+  });
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -64,8 +64,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
   }
 });
-
-
 
 const dburl =
   process.env.NODE_ENV === "production"

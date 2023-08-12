@@ -13,8 +13,9 @@ const attendSchema = new mongoose.Schema({
   },
   logs: {
     type: Array,
-    default: [{ type: String }],
+    default: [{ checkedIn: Number, checkedOut: Number }],
   },
+  lastReminder: Number,
 });
 
 module.exports = mongoose.model("Attendance", attendSchema);
