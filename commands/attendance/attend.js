@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  Permissions,
+  PermissionFlagsBits,
 } = require("discord.js");
 const Attend = require("../../schemas/attend");
 const keyv = require("../../schemas/keyv");
@@ -258,7 +258,9 @@ module.exports = {
 
       return interaction.reply({ embeds: [embed] });
     } else if (interaction.options.getSubcommand() == "subtract") {
-      if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+      if (
+        !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
+      ) {
         return interaction.reply({
           content: "You do not have permission to subtract time from people.",
           ephemeral: true,

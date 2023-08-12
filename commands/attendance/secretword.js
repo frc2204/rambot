@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  Permissions,
+  PermissionFlagsBits,
 } = require("discord.js");
 const keyv = require("../../schemas/keyv");
 
@@ -26,7 +26,7 @@ module.exports = {
       subcommand.setName("get").setDescription("Get today's secret word")
     ),
   async execute(interaction) {
-    if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
       return interaction.reply({
         content: "You do not have permission to change the secret word.",
         ephemeral: true,
