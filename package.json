@@ -1,0 +1,16 @@
+{
+  "name": "rambot",
+  "version": "1.0.0",
+  "description": "Team 2204's Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "2204 Rambots",
+  "dependencies": {
+    "discord.js": "^14.12.1",
+    "dotenv": "^16.3.1",
+    "mongoose": "^7.4.2"
+  }
+}
