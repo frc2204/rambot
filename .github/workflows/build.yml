@@ -20,9 +20,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd rambot/
-            pm2 stop index.js
+            pm2 stop rambot
             git pull --force
             npm install -y
-            echo "::add-mask::${{ secrets.DOTENV }}" > .env
             node deploy.js
-            pm2 start index.js
+            pm2 start index.js --name rambot
