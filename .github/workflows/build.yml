@@ -1,0 +1,28 @@
+name: Deploy bot to server
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploying
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd rambot/
+            pm2 stop index.js
+            git pull --force
+            npm install -y
+            echo "${{ secrets.DOTENV }}" > .env
+            node deploy.js
+            pm2 start index.js
