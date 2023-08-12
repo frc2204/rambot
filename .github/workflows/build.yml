@@ -23,6 +23,6 @@ jobs:
             pm2 stop index.js
             git pull --force
             npm install -y
-            echo "${{ secrets.DOTENV }}" > .env
+            echo "::add-mask::${{ secrets.DOTENV }}" > .env
             node deploy.js
             pm2 start index.js
