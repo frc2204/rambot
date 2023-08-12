@@ -26,7 +26,7 @@ module.exports = {
       subcommand.setName("get").setDescription("Get today's secret word")
     ),
   async execute(interaction) {
-    if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_SERVER)) {
+    if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
       return interaction.reply({
         content: "You do not have permission to change the secret word.",
         ephemeral: true,

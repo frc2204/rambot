@@ -258,9 +258,7 @@ module.exports = {
 
       return interaction.reply({ embeds: [embed] });
     } else if (interaction.options.getSubcommand() == "subtract") {
-      if (
-        !interaction.member.permissions.has(Permissions.FLAGS.MANAGE_SERVER)
-      ) {
+      if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
         return interaction.reply({
           content: "You do not have permission to subtract time from people.",
           ephemeral: true,
