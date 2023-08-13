@@ -264,7 +264,7 @@ module.exports = {
               .join("\n"),
           }
         )
-        .setThumbnail(interaction.user.avatarURL())
+        .setThumbnail(user.avatarURL())
         .setFooter({
           text: "rambot",
         });
