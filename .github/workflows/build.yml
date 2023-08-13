@@ -25,3 +25,4 @@ jobs:
             npm install -y
             node deploy.js
             pm2 start index.js --name rambot
+            pm2 save

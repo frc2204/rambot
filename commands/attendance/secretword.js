@@ -3,6 +3,7 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
+const moment = require("moment-timezone");
 const keyv = require("../../schemas/keyv");
 
 module.exports = {
@@ -46,7 +47,7 @@ module.exports = {
         word = data[0];
       }
 
-      const date = Math.floor(Date.now() / 1000);
+      const date = moment.tz("America/Los_Angeles").unix();
 
       await keyv.findOneAndUpdate(
         {
