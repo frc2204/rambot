@@ -7,9 +7,17 @@ const Attend = require("../../schemas/attend");
 const keyv = require("../../schemas/keyv");
 require("dotenv").config({ path: "../../.env" });
 
-const matchesToday = (op1, op2) =>
+const daysMatch = (op1, op2) =>
   new Date(op1 * 1000).toISOString().slice(0, 10) ===
   new Date(op2 * 1000).toISOString().slice(0, 10);
+
+async function sendLog(interaction, message) {
+  const channel = await interaction.guild.channels.fetch(
+    process.env.CHANNEL_ID
+  );
+
+  channel.send(message);
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -45,7 +53,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("subtract")
-        .setDescription("Subtract hours from a user")
+        .setDescription("Subtract hours from a user (ADMIN ONLY)")
         .addUserOption((option) =>
           option
             .setName("user")
@@ -58,6 +66,17 @@ module.exports = {
             .setDescription(
               "How many hours you want to subtract. (Decimals allowed)"
             )
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("force_check_out")
+        .setDescription("Force's a person's check out. (ADMIN ONLY)")
+        .addUserOption((option) =>
+          option
+            .setName("user")
+            .setDescription("User you want to check out")
             .setRequired(true)
         )
     ),
@@ -89,14 +108,14 @@ module.exports = {
           });
         }
 
-        if (matchesToday(attendDBEntry.date, currentUnixTime)) {
+        if (daysMatch(attendDBEntry.date, currentUnixTime)) {
           return interaction.reply({
             content: `You can only check in once everyday!`,
             ephemeral: true,
           });
         }
 
-        if (matchesToday(attendDBEntry.date, secretword.value.date)) {
+        if (!daysMatch(attendDBEntry.date, secretword.value.date)) {
           return interaction.reply({
             content: `The secret word seems to be outdated. Ask leadership to make a new secret word.`,
             ephemeral: true,
@@ -118,11 +137,8 @@ module.exports = {
         }
       );
 
-      const channel = await interaction.guild.channels.fetch(
-        process.env.CHANNEL_ID
-      );
-
-      channel.send(
+      await sendLog(
+        interaction,
         `✅ - <@${interaction.user.id}> has just checked in at <t:${currentUnixTime}:F>`
       );
 
@@ -176,11 +192,8 @@ module.exports = {
         }
       );
 
-      const channel = await interaction.guild.channels.fetch(
-        process.env.CHANNEL_ID
-      );
-
-      channel.send(
+      await sendLog(
+        interaction,
         `👋 - <@${
           interaction.user.id
         }> has just checked out at <t:${currentUnixTime}:F>\nTo undo this do \`/attend subtract user:866367023265349662 hours:${(
@@ -234,7 +247,7 @@ module.exports = {
             name: "Hours Put In",
             value:
               "```" +
-              (attendDBEntry.timePutIn / 7200).toFixed(4) +
+              (attendDBEntry.timePutIn / 3600).toFixed(4) +
               " Hours" +
               "```",
           },
@@ -291,11 +304,8 @@ module.exports = {
         }
       );
 
-      const channel = await interaction.guild.channels.fetch(
-        process.env.CHANNEL_ID
-      );
-
-      channel.send(
+      await sendLog(
+        interaction,
         `🔄 - <@${interaction.user.id}> subtracted ${hours.toFixed(
           4
         )} hours from <@${id}>`
@@ -303,6 +313,62 @@ module.exports = {
 
       return interaction.reply({
         content: `You have subtracted ${hours} hours from <@${id}>`,
+        ephemeral: true,
+      });
+    } else if (interaction.options.getSubcommand() == "force_check_out") {
+      if (
+        !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
+      ) {
+        return interaction.reply({
+          content: "You do not have permission to subtract time from people.",
+          ephemeral: true,
+        });
+      }
+
+      const { id } = interaction.options.getUser("user");
+      const attendDBEntry = await Attend.findOne({
+        discordID: id,
+      });
+
+      if (!attendDBEntry || !attendDBEntry.checkedIn) {
+        return interaction.reply({
+          content: `User is not checked in.`,
+          ephemeral: true,
+        });
+      }
+
+      const secondsPutIn = Math.min(
+        currentUnixTime - attendDBEntry.date,
+        25200
+      );
+
+      await Attend.findOneAndUpdate(
+        {
+          discordID: interaction.user.id,
+        },
+        {
+          checkedIn: false,
+          $inc: { timePutIn: secondsPutIn },
+          $push: {
+            logs: {
+              checkedIn: attendDBEntry.date,
+              checkedOut: currentUnixTime,
+            },
+          },
+        }
+      );
+
+      await sendLog(
+        interaction,
+        `🦵 - <@${
+          interaction.user.id
+        }> has just force checked out <@${id}> at <t:${currentUnixTime}:F>\nTo undo this do \`/attend subtract user:866367023265349662 hours:${(
+          secondsPutIn / 3600
+        ).toFixed(4)}\``
+      );
+
+      return interaction.reply({
+        content: `Force checked out <@${id}>.`,
         ephemeral: true,
       });
     }

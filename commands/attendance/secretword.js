@@ -12,7 +12,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("change")
-        .setDescription("Change today's secret word")
+        .setDescription("Change today's secret word (ADMIN ONLY)")
         .addStringOption((option) =>
           option
             .setName("secret_word")
@@ -23,7 +23,9 @@ module.exports = {
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName("get").setDescription("Get today's secret word")
+      subcommand
+        .setName("get")
+        .setDescription("Get today's secret word (ADMIN ONLY)")
     ),
   async execute(interaction) {
     if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
