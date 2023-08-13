@@ -6,8 +6,8 @@ require("dotenv").config({ path: "../../../.env" });
 
 function daysMatch(op1, op2) {
   return (
-    moment.unix(op1).toISOString().slice(0, 10) ===
-    moment.unix(op1).toISOString().slice(0, 10)
+    moment.unix(op1).format("YYYY-MM-DD") ===
+    moment.unix(op2).format("YYYY-MM-DD")
   );
 }
 
