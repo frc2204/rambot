@@ -41,13 +41,18 @@ module.exports = async (interaction) => {
       },
       {
         name: "Logs (Past 10)",
-        value: attendDBEntry.logs
-          .sort((a, b) => b.checkedOut - a.checkedOut)
-          .slice(0, 10)
-          .map((o) =>
-            !o.checkedIn ? "" : `<t:${o.checkedIn}:F> - <t:${o.checkedOut}:F>`
-          )
-          .join("\n"),
+        value:
+          attendDBEntry.logs.length == 1
+            ? "N/A"
+            : attendDBEntry.logs
+                .sort((a, b) => b.checkedOut - a.checkedOut)
+                .slice(0, 10)
+                .map((o) =>
+                  !o.checkedIn
+                    ? ""
+                    : `<t:${o.checkedIn}:F> - <t:${o.checkedOut}:F>`
+                )
+                .join("\n"),
         inline: false,
       }
     )
