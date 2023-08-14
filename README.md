@@ -57,4 +57,4 @@ Your bot should now be up and running! You should see it online in your Discord 
 
 ## License
 
-This Discord bot is licensed under the **GNU Affero General Public License**. Please review the `LICENSE` file included in this repository for more details.
+This Discord bot is licensed under the **GNU General Public License**. Please review the `LICENSE` file included in this repository for more details.
