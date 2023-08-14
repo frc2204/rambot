@@ -23,12 +23,12 @@ module.exports = async (interaction) => {
       {
         name: "User ID",
         value: "```" + user.id + "```",
-        inline: true,
+        inline: false,
       },
       {
         name: "Checked In RN",
         value: "```" + (attendDBEntry.checkedIn ? "YES" : "NO") + "```",
-        inline: true,
+        inline: false,
       },
       {
         name: "Hours Put In",
@@ -37,7 +37,7 @@ module.exports = async (interaction) => {
           (attendDBEntry.timePutIn / 3600).toFixed(4) +
           " Hours" +
           "```",
-        inline: true,
+        inline: false,
       },
       {
         name: "Logs (Past 10)",
@@ -48,7 +48,7 @@ module.exports = async (interaction) => {
             !o.checkedIn ? "" : `<t:${o.checkedIn}:F> - <t:${o.checkedOut}:F>`
           )
           .join("\n"),
-        inline: true,
+        inline: false,
       }
     )
     .setThumbnail(user.avatarURL())
