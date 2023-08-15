@@ -1,5 +1,8 @@
 const { EmbedBuilder } = require("discord.js");
 const Attend = require("../../../schemas/attend");
+require("dotenv").config({ path: "../../../.env" });
+
+const admins = process.env.ADMINS.split("|");
 
 module.exports = async (interaction) => {
   const user = interaction.options.getUser("user") || interaction.user;
@@ -15,8 +18,10 @@ module.exports = async (interaction) => {
     });
   }
 
+  const adminStatus = admins.includes(user.id.toString());
+
   const embed = new EmbedBuilder()
-    .setColor("#A31F36")
+    .setColor(adminStatus ? "#fff000" : "#A31F36")
     .setTitle(user.username)
     .setDescription(`<@${user.id}>`)
     .addFields(
@@ -58,7 +63,10 @@ module.exports = async (interaction) => {
     )
     .setThumbnail(user.avatarURL())
     .setFooter({
-      text: "rambot",
+      text: adminStatus ? "Admin Status" : "rambot",
+      iconURL: adminStatus
+        ? "https://cdn.discordapp.com/attachments/1139775932127789137/1140800031180460213/8020-admin-badge-orange.png"
+        : "https://cdn.discordapp.com/attachments/988886251367178320/1132098808629690398/RamBots_ALT_Logo.png",
     });
 
   return interaction.reply({ embeds: [embed] });

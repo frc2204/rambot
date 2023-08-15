@@ -1,4 +1,3 @@
-const { PermissionFlagsBits } = require("discord.js");
 const Attend = require("../../../schemas/attend");
 require("dotenv").config({ path: "../../../.env" });
 
@@ -11,13 +10,6 @@ async function sendLog(interaction, message) {
 }
 
 module.exports = async (interaction) => {
-  if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-    return interaction.reply({
-      content: "You do not have permission to subtract time from people.",
-      ephemeral: true,
-    });
-  }
-
   const { id } = interaction.options.getUser("user");
   const attendDBEntry = await Attend.findOne({
     discordID: id,
