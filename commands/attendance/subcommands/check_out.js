@@ -46,7 +46,7 @@ module.exports = async (interaction) => {
     interaction,
     `👋 - <@${
       interaction.user.id
-    }> has just checked out at <t:${currentUnixTime}:F>\nTo undo this do \`/attend subtract user:866367023265349662 hours:${(
+    }> has just checked out at <t:${currentUnixTime}:F>\nTo undo this do \`/admin subtract user:866367023265349662 hours:${(
       secondsPutIn / 3600
     ).toFixed(4)}\``
   );
