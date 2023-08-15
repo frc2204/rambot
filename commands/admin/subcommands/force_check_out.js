@@ -29,7 +29,7 @@ module.exports = async (interaction) => {
 
   await Attend.findOneAndUpdate(
     {
-      discordID: interaction.user.id,
+      discordID: id,
     },
     {
       checkedIn: false,
