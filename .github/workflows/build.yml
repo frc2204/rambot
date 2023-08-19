@@ -20,9 +20,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd rambot/
-            pm2 stop rambot
+            sudo pm2 stop rambot
             git pull --force
             npm install -y
             node deploy.js
-            pm2 start index.js --name rambot
-            pm2 save
+            sudo pm2 start index.js --name rambot
+            sudo pm2 save
