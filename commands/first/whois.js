@@ -1,5 +1,10 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
+const headers = {
+          "Content-Type": "application/json",
+          "X-TBA-Auth-Key": process.env.TBA_KEY,
+}
+
 function stringLimitCheck(string) {
   if (string.split("\n").length > 15) {
     return string.split("\n").slice(0, 15).join("\n") + "\n[List too long]";
@@ -21,10 +26,7 @@ module.exports = {
         "team_num"
       )}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-          "X-TBA-Auth-Key": process.env.TBA_KEY,
-        },
+        headers,
       }
     );
 
@@ -42,10 +44,7 @@ module.exports = {
         "team_num"
       )}/events`,
       {
-        headers: {
-          "Content-Type": "application/json",
-          "X-TBA-Auth-Key": process.env.TBA_KEY,
-        },
+        headers,
       }
     );
 
@@ -56,10 +55,7 @@ module.exports = {
         "team_num"
       )}/awards`,
       {
-        headers: {
-          "Content-Type": "application/json",
-          "X-TBA-Auth-Key": process.env.TBA_KEY,
-        },
+        headers,
       }
     );
 
