@@ -27,9 +27,7 @@ module.exports = {
     .addAttachmentOption((option) =>
       option
         .setName("order_details_attachment")
-        .setDescription(
-          "Attachment a PDF, DOCX, DOC, MD, TXT, or PPTX (required)"
-        )
+        .setDescription("Attach a PDF, DOCX, DOC, MD, TXT, or PPTX (required)")
         .setRequired(true)
     )
     .addStringOption((option) =>
