@@ -23,10 +23,10 @@ function makeid(length) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("purchase")
-    .setDescription("Send a purchase request to business team")
+    .setDescription("Send a BOM to business team")
     .addAttachmentOption((option) =>
       option
-        .setName("order_details_attachment")
+        .setName("bom_attachment")
         .setDescription("Attach a PDF, DOCX, DOC, MD, TXT, or PPTX (required)")
         .setRequired(true)
     )
@@ -37,12 +37,10 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction) {
-    const attachment = interaction.options.getAttachment(
-      "order_details_attachment"
-    );
+    const attachment = interaction.options.getAttachment("bom_attachment");
 
     const name = attachment.name;
-    const proxyURL = attachment.proxyURL;
+    const attchURL = attachment.url;
 
     if (
       !(
@@ -73,13 +71,13 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor("#ff6600")
       .setAuthor({
-        name: "Purchase Request",
+        name: "BOM Purchase Request",
         iconURL:
           "https://cdn.discordapp.com/attachments/1153834995195072583/1154131931903041536/3859_Loading.gif",
         url: "https://rambots.org",
       })
       .setDescription(
-        "**Your order details attachment must include:**\n- A list of every item you want to buy with their respective prices and links\n- The specific option for those items (example: color, size, etc)\n- Shipping Costs\n- Taxes\n- Total Costs of all items\n- Any discounts we may be eligible for\n\n**Have you included all the required fields?**"
+        "**Your BOM attachment must include:**\n- A list of every item/material/component you want to buy with their respective prices, links, option (color, size, etc), and quantities.\n- Shipping Costs\n- Taxes\n- Total Costs of all items\n- Any discounts we may be eligible for\n\n**Have you included all the required fields?**"
       );
 
     await interaction.reply({
@@ -105,11 +103,11 @@ module.exports = {
 
         const logEmbed = new EmbedBuilder()
           .setColor("#00ff1e")
-          .setTitle("Purchase Request")
+          .setTitle("BOM Purchase Request")
           .addFields(
             { name: "Request Number", value: "`" + interaction.id + "`" },
             { name: "Requester", value: `<@${interaction.user.id}>` },
-            { name: "Download", value: `**[Click to download](${proxyURL})**` },
+            { name: "Download", value: `**[Click to download](${attchURL})**` },
             {
               name: "Additional Comments",
               value: interaction.options.getString("extra_comments")
@@ -123,7 +121,7 @@ module.exports = {
         const sucessEmbed = new EmbedBuilder()
           .setColor("#00ff1e")
           .setAuthor({
-            name: "Purchase Request",
+            name: "BOM Purchase Request",
             iconURL:
               "https://cdn.discordapp.com/attachments/1031787835587563564/1139761520859947028/1134-verified-animated.gif",
             url: "https://rambots.org",
