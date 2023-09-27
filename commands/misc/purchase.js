@@ -47,8 +47,9 @@ module.exports = {
         name.endsWith(".docx") ||
         name.endsWith(".md") ||
         name.endsWith(".pdf") ||
-        name.endsWith(".pptx") ||
+        name.endsWith(".xlsx") ||
         name.endsWith(".doc") ||
+        name.endsWith(".odt") ||
         name.endsWith(".txt")
       )
     ) {
