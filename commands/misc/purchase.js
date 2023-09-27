@@ -54,7 +54,7 @@ module.exports = {
       )
     ) {
       return interaction.reply({
-        content: "PDF, DOCX, DOC, MD, TXT, or PPTX only! :(",
+        content: "PDF, DOCX, DOC, ODT, XLSX, MD, or TXT file only :(",
         ephemeral: true,
       });
     }
